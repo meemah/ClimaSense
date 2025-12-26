@@ -1,6 +1,4 @@
 package com.example.climasense.core.theme
-
-import android.provider.CalendarContract.Colors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable

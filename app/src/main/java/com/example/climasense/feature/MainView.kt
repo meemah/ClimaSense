@@ -1,6 +1,5 @@
 package com.example.climasense.feature
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,12 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+
 import com.example.climasense.core.theme.ClimaSenseTheme
 import com.example.climasense.feature.airquality.AirQualityView
-import com.example.climasense.feature.alerts.AlertView
-import com.example.climasense.feature.forecast.ForeCastView
-import com.example.climasense.feature.home.HomeView
+
 
 @Composable
 fun MainView() {
