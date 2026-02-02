@@ -1,4 +1,5 @@
 package com.example.climasense.core.theme
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -14,7 +15,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val Primary = Color(0xff279df1)
-val BackgroundLight = Color(0xfff6f7f8)
+val BackgroundLight = Color(0xffFFFDF8)
 val BackgroundDark = Color(0xff101b22)
 val White = Color(0xffffffff)
 val Grey = Color(0xff91b2ca)
@@ -25,7 +26,7 @@ val Zinc800 = Color(0xFF27272A)
 val Zinc900 = Color(0xFF18181B)
 
 data class CustomThemeColor(
-    val darkLightGrey:Color,
+    val darkLightGrey: Color,
     val zinc100andZinc800: Color,
     val zinc200andZinc900: Color
 )
@@ -39,7 +40,7 @@ val DarkCustomThemeColor = CustomThemeColor(
 
 val LightCustomThemeColor = CustomThemeColor(
     darkLightGrey = Color.DarkGray,
-            zinc100andZinc800 = Zinc100,
+    zinc100andZinc800 = Zinc100,
     zinc200andZinc900 = Zinc200
 
 )

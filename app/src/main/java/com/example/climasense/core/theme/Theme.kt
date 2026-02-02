@@ -24,9 +24,9 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
-    tertiary = Pink40 ,
+    tertiary = Pink40,
     background = BackgroundLight,
-    surface = Color(0xFFFFFBFE),
+    surface = Color(0xFFFFFEFC),
 
     /* Other default colors to override
 
@@ -47,15 +47,16 @@ fun ClimaSenseTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-      dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-        val context = LocalContext.current
-        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-      }
-      darkTheme -> DarkColorScheme
-      else -> LightColorScheme
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
     }
     val customColors = if (darkTheme) DarkCustomThemeColor else LightCustomThemeColor
-    CompositionLocalProvider(LocalCustomColors provides  customColors) {
+    CompositionLocalProvider(LocalCustomColors provides customColors) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
