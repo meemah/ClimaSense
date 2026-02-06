@@ -70,16 +70,23 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material.icons.extended)
-//    implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.kotlinx.serialization)
 
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.io.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.cash.turbine)
+    testImplementation(libs.io.ktor.client.mock)
+
+    // Architecture components testing
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 
 
     // Timber
