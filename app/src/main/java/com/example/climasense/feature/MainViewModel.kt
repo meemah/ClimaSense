@@ -23,13 +23,17 @@ class MainViewModel @Inject constructor(
     private val _state = MutableStateFlow<UiState<WeatherOneCallResponse>>(UiState.Loading)
     val state: StateFlow<UiState<WeatherOneCallResponse>> = _state
 
+    private val _locationName = MutableStateFlow<String?>(null)
+    val locationName: StateFlow<String?> = _locationName
 
     fun fetchWeather() {
         viewModelScope.launch {
             val location = locationUtil.getUserLocation()
             if (location == null) {
-                _state.value = UiState.Error(message = "Opps we couldn't get your location")
+                _state.value = UiState.Error(message = "Oops we couldn't get your location")
             } else {
+                _locationName.value =
+                    locationUtil.getLocationName(location.latitude, location.longitude)
                 weatherRepository.getOneTimeResponse(
                     longitude = location.longitude,
                     latitude = location.latitude

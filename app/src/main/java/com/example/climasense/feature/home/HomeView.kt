@@ -48,7 +48,7 @@ fun HomeView(
     viewModel: MainViewModel,
 ) {
     val weatherState by viewModel.state.collectAsStateWithLifecycle()
-
+    val locationName by viewModel.locationName.collectAsStateWithLifecycle()
     when (weatherState) {
         is UiState.Loading -> {
             LoadingState()
@@ -74,7 +74,7 @@ fun HomeView(
                         modifier = Modifier.size(16.dp)
                     )
                     Text(
-                        "San Francisco, CA",
+                        locationName ?: "Locating....",
                         modifier = Modifier.padding(start = 10.dp),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.ExtraBold,
