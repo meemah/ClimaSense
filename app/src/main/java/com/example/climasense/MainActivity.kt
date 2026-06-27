@@ -41,13 +41,12 @@ class MainActivity : ComponentActivity() {
             }
 
             ClimaSenseTheme(darkTheme = isDarkTheme, dynamicColor = false) {
-
                 NavHost(
                     navController = rememberNavController(),
                     startDestination = MainRoute,
                 ) {
                     composable<MainRoute> {
-                        var viewModel = hiltViewModel<MainViewModel>()
+                        hiltViewModel<MainViewModel>()
                         MainView()
                     }
                     composable<AirQualityRoute> {
