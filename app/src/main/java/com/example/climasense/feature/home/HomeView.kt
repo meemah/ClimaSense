@@ -193,7 +193,7 @@ fun HomeView(
 
         is UiState.Error -> {
             val message = (weatherState as UiState.Error).message
-            ErrorState(message = message)
+            ErrorState(message = message, onRetry = { viewModel.fetchWeather() })
         }
     }
 

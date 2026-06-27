@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.WifiTetheringError
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,7 +22,7 @@ import com.example.climasense.core.theme.customColors
 
 
 @Composable
-fun ErrorState(modifier: Modifier = Modifier, message: String) {
+fun ErrorState(modifier: Modifier = Modifier, message: String, onRetry: (() -> Unit)? = null) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -42,5 +43,13 @@ fun ErrorState(modifier: Modifier = Modifier, message: String) {
             textAlign = TextAlign.Center,
             modifier = modifier.padding(top = 10.dp)
         )
+        if (onRetry != null) {
+            Button(
+                onClick = onRetry,
+                modifier = Modifier.padding(top = 12.dp)
+            ) {
+                Text("Retry")
+            }
+        }
     }
 }
