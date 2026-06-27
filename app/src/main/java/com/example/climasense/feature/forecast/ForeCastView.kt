@@ -25,6 +25,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.climasense.core.modifiers.customCard
+import com.example.climasense.core.states.ErrorState
+import com.example.climasense.core.states.LoadingState
 import com.example.climasense.core.theme.customColors
 import com.example.climasense.feature.MainViewModel
 import com.example.climasense.feature.UiState
@@ -38,11 +40,12 @@ fun ForeCastView(
     val weatherState by viewModel.state.collectAsStateWithLifecycle()
     when (weatherState) {
         is UiState.Error -> {
+            ErrorState(message = (weatherState as UiState.Error).message)
 
         }
 
         is UiState.Loading -> {
-
+            LoadingState()
         }
 
         is UiState.Success -> {
