@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.climasense.core.model.Weather
 import com.example.climasense.core.modifiers.customCard
+import com.example.climasense.core.states.EmptyState
 import com.example.climasense.core.states.ErrorState
 import com.example.climasense.core.states.LoadingState
 import com.example.climasense.core.theme.customColors
@@ -56,136 +57,137 @@ fun HomeView(
 
         is UiState.Success -> {
             val data = (weatherState as UiState.Success).data
-            val currentWeather: Weather = data.current.weather.first()
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-
-            ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Absolute.Left,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                ) {
-                    Icon(
-                        Icons.Default.LocationOn,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Text(
-                        locationName ?: "Locating....",
-                        modifier = Modifier.padding(start = 10.dp),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                        )
-                    )
-                }
-
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AsyncImage(
-                            "https://openweathermap.org/img/wn/${currentWeather.icon}.png",
-                            contentDescription = currentWeather.description,
-                            modifier = Modifier.size(130.dp)
-                        )
-
-                        Text(
-                            "${data.current.temp?.day}°",
-                            modifier = Modifier.padding(vertical = 10.dp),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 80.sp,
-                            )
-                        )
-                        Text(currentWeather.description)
-                        Text(
-                            "H:75°L58°",
-                            modifier = Modifier.padding(top = 5.dp, bottom = 15.dp),
-                            style = TextStyle(
-                                color = MaterialTheme.customColors.darkLightGrey
-                            )
-                        )
-
-                    }
-                }
+            val currentWeather: Weather? = data.current.weather.firstOrNull()
+            if (currentWeather == null) {
+                EmptyState()
+            } else {
                 Column(
-                    modifier = Modifier
-                        .customCard()
-                        .fillMaxWidth()
+                    modifier = modifier.fillMaxSize()
+
                 ) {
-                    Text(
-                        "7 DAY FORECAST", style = TextStyle(
-                            color = MaterialTheme.customColors.darkLightGrey
-                        ), modifier = Modifier.padding(bottom = 10.dp)
-                    )
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Absolute.Left,
+                        modifier = Modifier.padding(bottom = 10.dp)
                     ) {
-                        items(data.daily) { weather ->
-                            Column {
-                                Text(
-                                    DateTimeFormatter.ofPattern("EEE").format(weather.dt)
-                                        .uppercase(), style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.customColors.darkLightGrey
-                                    )
+                        Icon(
+                            Icons.Default.LocationOn,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Text(
+                            locationName ?: "Locating....",
+                            modifier = Modifier.padding(start = 10.dp),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                            )
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            AsyncImage(
+                                "https://openweathermap.org/img/wn/${currentWeather.icon}.png",
+                                contentDescription = currentWeather.description,
+                                modifier = Modifier.size(130.dp)
+                            )
+
+                            Text(
+                                "${data.current.temp?.day}°",
+                                modifier = Modifier.padding(vertical = 10.dp),
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 80.sp,
                                 )
-                                AsyncImage(
-                                    "https://openweathermap.org/img/wn/${weather.weather.first().icon}.png",
-                                    contentDescription = weather.weather.first().description,
-                                    modifier = Modifier
-                                        .padding(
-                                            vertical = 10.dp
-                                        )
-                                        .size(30.dp)
+                            )
+                            Text(currentWeather.description)
+                            Text(
+                                "H:75°L58°",
+                                modifier = Modifier.padding(top = 5.dp, bottom = 15.dp),
+                                style = TextStyle(
+                                    color = MaterialTheme.customColors.darkLightGrey
                                 )
-                                Text("${weather.temp?.day}°")
-                            }
+                            )
 
                         }
                     }
-                }
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(vertical = 15.dp)
-                )
-                {
-                    item {
-                        AirQualityCard(
-                            title = "Humidity",
-                            value = "${data.current.humidity}%",
-                            icon = Icons.Default.WaterDrop
+                    Column(
+                        modifier = Modifier
+                            .customCard()
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            "7 DAY FORECAST", style = TextStyle(
+                                color = MaterialTheme.customColors.darkLightGrey
+                            ), modifier = Modifier.padding(bottom = 10.dp)
                         )
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            items(data.daily) { weather ->
+                                Column {
+                                    Text(
+                                        DateTimeFormatter.ofPattern("EEE").format(weather.dt)
+                                            .uppercase(), style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.customColors.darkLightGrey
+                                        )
+                                    )
+                                    AsyncImage(
+                                        "https://openweathermap.org/img/wn/${weather.weather.first().icon}.png",
+                                        contentDescription = weather.weather.first().description,
+                                        modifier = Modifier
+                                            .padding(
+                                                vertical = 10.dp
+                                            )
+                                            .size(30.dp)
+                                    )
+                                    Text("${weather.temp?.day}°")
+                                }
+
+                            }
+                        }
                     }
-                    item {
-                        AirQualityCard(
-                            title = "Wind",
-                            value = "${data.current.windSpeed} mph",
-                            icon = Icons.Default.Air
-                        )
-                    }
-                    item {
-                        AirQualityCard(
-                            title = "UV Index",
-                            value = "${data.current.uvi}",
-                            icon = Icons.Default.WbSunny
-                        )
-                    }
-                    item {
-                        AirQualityCard(
-                            title = "Visibility",
-                            value = "${data.current.visibility} mi",
-                            icon = Icons.Default.Visibility
-                        )
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(vertical = 15.dp)
+                    ) {
+                        item {
+                            AirQualityCard(
+                                title = "Humidity",
+                                value = "${data.current.humidity}%",
+                                icon = Icons.Default.WaterDrop
+                            )
+                        }
+                        item {
+                            AirQualityCard(
+                                title = "Wind",
+                                value = "${data.current.windSpeed} mph",
+                                icon = Icons.Default.Air
+                            )
+                        }
+                        item {
+                            AirQualityCard(
+                                title = "UV Index",
+                                value = "${data.current.uvi}",
+                                icon = Icons.Default.WbSunny
+                            )
+                        }
+                        item {
+                            AirQualityCard(
+                                title = "Visibility",
+                                value = "${data.current.visibility} mi",
+                                icon = Icons.Default.Visibility
+                            )
+                        }
                     }
                 }
             }
@@ -201,9 +203,7 @@ fun HomeView(
 
 @Composable
 private fun AirQualityCard(
-    title: String,
-    value: String,
-    icon: ImageVector
+    title: String, value: String, icon: ImageVector
 ) {
 
     Column(modifier = Modifier.customCard(borderRadius = 10.0)) {
@@ -212,10 +212,10 @@ private fun AirQualityCard(
             modifier = Modifier.padding(bottom = 10.dp)
         ) {
             Icon(
-                icon, contentDescription = null,
+                icon,
+                contentDescription = null,
                 tint = MaterialTheme.customColors.darkLightGrey,
-                modifier = Modifier
-                    .size(20.dp)
+                modifier = Modifier.size(20.dp)
             )
             Text(
                 title,
