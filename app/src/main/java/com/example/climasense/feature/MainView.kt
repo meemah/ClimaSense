@@ -72,8 +72,7 @@ fun MainView(
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 4.dp
+                containerColor = MaterialTheme.colorScheme.surface, tonalElevation = 4.dp
             ) {
                 MainMenu.appBottomMenu.mapIndexed { _, mainMenu ->
                     NavigationBarItem(
@@ -97,8 +96,7 @@ fun MainView(
                 }
             }
 
-        },
-        modifier = Modifier.fillMaxSize()
+        }, modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -125,33 +123,23 @@ fun MainViewPreview(modifier: Modifier = Modifier) {
 
 
 data class MainMenu(
-    val title: String,
-    val icon: ImageVector,
-    val route: Any
+    val title: String, val icon: ImageVector, val route: Any
 
 
 ) {
     companion object {
         val appBottomMenu = listOf(
             MainMenu(
-                title = "Home",
-                icon = Icons.Outlined.Home,
-                route = HomeRoute
+                title = "Home", icon = Icons.Outlined.Home, route = HomeRoute
             ),
             MainMenu(
-                title = "Forecast",
-                icon = Icons.Outlined.DateRange,
-                route = ForecastRoute
+                title = "Forecast", icon = Icons.Outlined.DateRange, route = ForecastRoute
             ),
             MainMenu(
-                title = "Alerts",
-                icon = Icons.Outlined.Notifications,
-                route = AlertRoute
+                title = "Alerts", icon = Icons.Outlined.Notifications, route = AlertRoute
             ),
             MainMenu(
-                title = "Settings",
-                icon = Icons.Outlined.Settings,
-                route = SettingsRoute
+                title = "Settings", icon = Icons.Outlined.Settings, route = SettingsRoute
             ),
         )
     }

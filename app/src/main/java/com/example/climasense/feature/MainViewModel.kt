@@ -3,6 +3,7 @@ package com.example.climasense.feature
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.climasense.core.LocationUtil
+import com.example.climasense.core.enums.UnitSystem
 import com.example.climasense.core.model.WeatherOneCallResponse
 import com.example.climasense.core.repository.WeatherRepository
 import com.skydoves.sandwich.message
@@ -25,9 +26,17 @@ class MainViewModel @Inject constructor(
 
     private val _locationName = MutableStateFlow<String?>(null)
     val locationName: StateFlow<String?> = _locationName
-
+    private val _unitSystem = MutableStateFlow(UnitSystem.METRIC)
+    val unitSystem: StateFlow<UnitSystem> = _unitSystem
     fun fetchWeather() {
         viewModelScope.launch {
+            _state.value = UiState.Loading
+            if (!locationUtil.isLocationEnabled()) {
+                _state.value =
+                    UiState.Error("Location is turned off. Turn it on to see the weather.")
+                return@launch
+            }
+
             val location = locationUtil.getUserLocation()
             if (location == null) {
                 _state.value = UiState.Error(message = "Oops we couldn't get your location")
@@ -36,7 +45,8 @@ class MainViewModel @Inject constructor(
                     locationUtil.getLocationName(location.latitude, location.longitude)
                 weatherRepository.getOneTimeResponse(
                     longitude = location.longitude,
-                    latitude = location.latitude
+                    latitude = location.latitude,
+                    unitSystem = _unitSystem.value
                 ).onSuccess {
                     _state.value = UiState.Success(data)
                 }.onFailure {

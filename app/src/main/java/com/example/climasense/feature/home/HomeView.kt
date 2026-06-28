@@ -50,6 +50,7 @@ fun HomeView(
 ) {
     val weatherState by viewModel.state.collectAsStateWithLifecycle()
     val locationName by viewModel.locationName.collectAsStateWithLifecycle()
+    val unitSystem by viewModel.unitSystem.collectAsStateWithLifecycle()
     when (weatherState) {
         is UiState.Loading -> {
             LoadingState()
@@ -58,6 +59,7 @@ fun HomeView(
         is UiState.Success -> {
             val data = (weatherState as UiState.Success).data
             val currentWeather: Weather? = data.current.weather.firstOrNull()
+            val today = data.daily.firstOrNull()
             if (currentWeather == null) {
                 EmptyState()
             } else {
@@ -107,7 +109,11 @@ fun HomeView(
                             )
                             Text(currentWeather.description)
                             Text(
-                                "H:75°L58°",
+                                "H:${unitSystem.formatTemp(today?.temp?.max)}  L:${
+                                    unitSystem.formatTemp(
+                                        today?.temp?.min
+                                    )
+                                }",
                                 modifier = Modifier.padding(top = 5.dp, bottom = 15.dp),
                                 style = TextStyle(
                                     color = MaterialTheme.customColors.darkLightGrey
@@ -140,8 +146,8 @@ fun HomeView(
                                         )
                                     )
                                     AsyncImage(
-                                        "https://openweathermap.org/img/wn/${weather.weather.first().icon}.png",
-                                        contentDescription = weather.weather.first().description,
+                                        "https://openweathermap.org/img/wn/${currentWeather.icon}.png",
+                                        contentDescription = currentWeather.description,
                                         modifier = Modifier
                                             .padding(
                                                 vertical = 10.dp
@@ -170,7 +176,7 @@ fun HomeView(
                         item {
                             AirQualityCard(
                                 title = "Wind",
-                                value = "${data.current.windSpeed} mph",
+                                value = unitSystem.formatWind(data.current.windSpeed),
                                 icon = Icons.Default.Air
                             )
                         }
@@ -184,7 +190,11 @@ fun HomeView(
                         item {
                             AirQualityCard(
                                 title = "Visibility",
-                                value = "${data.current.visibility} mi",
+                                value = data.current.visibility?.let {
+                                    unitSystem.formatVisibility(
+                                        it
+                                    )
+                                } ?: "--",
                                 icon = Icons.Default.Visibility
                             )
                         }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
+import androidx.core.location.LocationManagerCompat
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -63,11 +65,14 @@ class LocationUtil @Inject constructor(
                         .joinToString(", ")
                         .ifEmpty { null }
                 }
-                ""
 
             } catch (e: IOException) {
                 null
             }
         }
 
+    fun isLocationEnabled(): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
+    }
 }
