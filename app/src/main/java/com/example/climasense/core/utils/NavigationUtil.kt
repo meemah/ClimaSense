@@ -1,4 +1,3 @@
-
 import kotlinx.serialization.Serializable
 
 
@@ -15,8 +14,6 @@ data object AlertRoute
 data object SettingsRoute
 
 @Serializable
-data object  MainRoute
+data object MainRoute
 
 
-@Serializable
-data object  AirQualityRoute

@@ -1,6 +1,6 @@
 package com.example.climasense
 
-import AirQualityRoute
+
 import MainRoute
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,7 +19,6 @@ import com.example.climasense.core.datastore.ThemeMode
 import com.example.climasense.core.theme.ClimaSenseTheme
 import com.example.climasense.feature.MainView
 import com.example.climasense.feature.MainViewModel
-import com.example.climasense.feature.airquality.AirQualityView
 import com.example.climasense.feature.settings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,9 +47,6 @@ class MainActivity : ComponentActivity() {
                     composable<MainRoute> {
                         hiltViewModel<MainViewModel>()
                         MainView()
-                    }
-                    composable<AirQualityRoute> {
-                        AirQualityView()
                     }
                 }
 
