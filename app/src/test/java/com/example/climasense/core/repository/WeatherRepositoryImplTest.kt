@@ -1,5 +1,6 @@
 package com.example.climasense.core.repository
 
+import com.example.climasense.core.enums.UnitSystem
 import com.example.climasense.core.model.WeatherOneCallResponse
 import com.skydoves.sandwich.ApiResponse
 import io.ktor.client.HttpClient
@@ -65,7 +66,8 @@ class WeatherRepositoryImplTest {
         }
 
         repositoryImpl = WeatherRepositoryImpl(httpClient)
-        val result = repositoryImpl.getOneTimeResponse(latitude, longitude)
+        val result =
+            repositoryImpl.getOneTimeResponse(latitude, longitude, unitSystem = UnitSystem.METRIC)
         println("Result type: ${result::class.simpleName}")
         println("Expected type: ApiResponse.Success")
         println("Result: $result")
@@ -90,7 +92,8 @@ class WeatherRepositoryImplTest {
 
         repositoryImpl = WeatherRepositoryImpl(httpClient)
 
-        val result = repositoryImpl.getOneTimeResponse(latitude, longitude)
+        val result =
+            repositoryImpl.getOneTimeResponse(latitude, longitude, unitSystem = UnitSystem.METRIC)
 
         assertTrue(result is ApiResponse.Failure.Error)
     }

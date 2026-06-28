@@ -67,6 +67,7 @@ class MainViewModelTest {
         coEvery {
             weatherRepository.getOneTimeResponse(
                 any(),
+                any(),
                 any()
             )
         } returns ApiResponse.Success(mockWeatherResponse)
@@ -83,10 +84,11 @@ class MainViewModelTest {
 
         every { mockLocation.latitude } returns 10.0
         every { mockLocation.longitude } returns 20.0
-    
+
         coEvery { locationUtil.getUserLocation() } returns mockLocation
         coEvery {
             weatherRepository.getOneTimeResponse(
+                any(),
                 any(),
                 any()
             )
